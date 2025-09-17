@@ -1,0 +1,18 @@
+# Visual Studio cache/temporary files
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+x64/
+Debug/
+Release/
+ipch/
+*.log
+*.obj
+*.pch
+*.pdb
+*.idb
+*.aps
+*.ncb
+*.opendb
+*.VC.db
