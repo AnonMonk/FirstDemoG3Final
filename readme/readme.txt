@@ -95,10 +95,10 @@ ob im von Visual Studio erzeugten Projektordner auch wirklich alle
 
 Oft legt VS nur eine leere Projektstruktur an.
 Falls die Quelldateien und Header nicht automatisch übernommen wurden:
-- Alle .cpp-Dateien manuell im Projektmappen-Explorer unter "Quelldateien" hinzufügen.
-- Alle .h-Dateien manuell im Projektmappen-Explorer unter "Headerdateien" hinzufügen.
+- Alle .cpp-Dateien manuell im Explorer hinzufügen.
+- Alle .h-Dateien manuell im Explorer hinzufügen.
 
-Erst wenn alle Dateien im Projekt sichtbar sind, lässt sich die Demo korrekt kompilieren.
+Erst wenn alle Dateien im Projekt & Explorer sichtbar sind, lässt sich die Demo korrekt kompilieren.
 
 Linux (ungetestet)
 -----
@@ -124,7 +124,7 @@ Mac OS X 10.4.11 (PPC/G3)
 3. Starten:
    ./demo
 
-macOS (neuere Versionen, z. B. macOS 26)
+macOS (neuere Versionen, z. B. macOS 26 ungetestet)
 ----------------------------------------
 1. Xcode oder clang++ nutzen.
 2. Kompilieren mit:
