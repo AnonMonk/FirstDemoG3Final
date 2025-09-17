@@ -14,6 +14,47 @@ Inhalt:
 - Stuff/music: music.wav (WAV)
 
 -------------------------------------------------
+
+FreeGLUT
+--------
+Für die Demo wird die Bibliothek FreeGLUT benötigt. 
+Im Ordner readme/freeglut sind die benötigten Dateien bereits enthalten:
+
+- Header:   readme/freeglut/include/GL/freeglut.h
+- Library:  readme/freeglut/lib/freeglut.lib
+- DLL:      readme/freeglut/bin/freeglut.dll
+
+Windows (Visual Studio):
+1. Include-Pfad setzen:
+   Project → Properties → C/C++ → Additional Include Directories:
+   $(ProjectDir)readme\freeglut\include
+2. Library-Pfad setzen:
+   Project → Properties → Linker → Additional Library Directories:
+   $(ProjectDir)readme\freeglut\lib
+3. Dependencies eintragen:
+   Project → Properties → Linker → Input → Additional Dependencies:
+   freeglut.lib; opengl32.lib; gdi32.lib; winmm.lib
+4. DLL bereitstellen:
+   Kopiere freeglut.dll aus readme/freeglut/bin in den Ordner der EXE
+   (z. B. x64\Debug\).
+
+Linux:
+- Installation über Paketmanager, z. B.:
+  sudo apt install freeglut3-dev
+- Danach automatisch in /usr/include/GL/freeglut.h und /usr/lib.
+
+macOS (modern):
+- Meist reicht Apples GLUT-Framework:
+  -framework GLUT -framework OpenGL
+- Alternativ Installation per Homebrew:
+  brew install freeglut
+
+PowerMac (Mac OS X 10.4):
+- Kein FreeGLUT nötig. System-Frameworks verwenden:
+  -framework GLUT -framework OpenGL -framework AGL -framework Carbon -framework QuickTime
+
+
+-------------------------------------------------
 Build-Anleitungen
 -------------------------------------------------
 
@@ -45,6 +86,19 @@ Windows (Visual Studio)
      - Stuff\music\musik.wav
 6. Build starten -> F5.  
    Hinweis: Nur unkomprimierte 24-Bit BMP-Dateien im Stuff\images-Ordner verwenden.
+
+   Hinweis für Visual Studio (Dateien einfügen)
+--------------------------------------------
+Wenn das Projekt in Visual Studio erstellt wird, muss überprüft werden,
+ob im von Visual Studio erzeugten Projektordner auch wirklich alle
+.cpp- und .h-Dateien enthalten sind. 
+
+Oft legt VS nur eine leere Projektstruktur an.
+Falls die Quelldateien und Header nicht automatisch übernommen wurden:
+- Alle .cpp-Dateien manuell im Projektmappen-Explorer unter "Quelldateien" hinzufügen.
+- Alle .h-Dateien manuell im Projektmappen-Explorer unter "Headerdateien" hinzufügen.
+
+Erst wenn alle Dateien im Projekt sichtbar sind, lässt sich die Demo korrekt kompilieren.
 
 Linux (ungetestet)
 -----
