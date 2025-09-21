@@ -41,10 +41,10 @@ void timer(int) {
 
     if (deltaTime < 4) phase = PHASE_INTRO_RISE;
     if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
-    if ((deltaTime >= 8) && (deltaTime < 16)) phase = PHASE_PICTURE;
-    if ((deltaTime >= 16) && (deltaTime < 26)) phase = PHASE_BALL;
-    if ((deltaTime >= 26) && (deltaTime < 36)) phase = PHASE_PARTICLES;
-    if (deltaTime >= 36) demo_quit();
+    if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
+    if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
+    if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
+    if (deltaTime >= 52) demo_quit();
 
 
 
