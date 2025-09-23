@@ -1,6 +1,17 @@
-#define NOMINMAX
+#if defined(_WIN32)
+    #define NOMINMAX
+#endif
+
 #include "05_scroller.h"
+
+#if definded(__APPLE__)
+//Apple-GLUT (Mac OS X 10.4.11)
+#include <GLUT/glut.h>
+#else
+//FreeGLUT (Windows, Linux)
 #include <GL/freeglut.h>
+#endif
+
 #include <string>
 #include <algorithm>
 
