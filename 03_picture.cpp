@@ -108,9 +108,8 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
 
     // Top-Down erkennen nur auf Apple (ansonsten Verhalten unverändert)
 #if defined(__APPLE__)
-    const bool topDown = (h < 0);
-#else
-    const bool topDown = false;
+    if (h < 0)
+        fprintf(stderr, "BMP ist top-down gespeichert (height negativ)\n");
 #endif
 
     if (h < 0) h = -h;
@@ -141,15 +140,7 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
     }
     fclose(f);
 
-/*    // Hinweis bei Top-Down (nur Apple, nur Log)
-#if defined(__APPLE__)
-    if (topDown) {
-        fprintf(stderr, "BMP ist top-down gespeichert (height negativ)\n");
-        // Darstellung bleibt zunächst wie gehabt (kann „auf dem Kopf“ sein).
-        // Wenn gewünscht, können wir später nur die TexCoords drehen.
-    }
-#endif
-*/
+
     return data; // BGR order, bottom-to-top rows
 }
 
