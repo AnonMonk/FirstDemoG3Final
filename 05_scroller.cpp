@@ -30,8 +30,10 @@ static float gTextWidthNDC = 0.0f;
 // Breitenhilfen (Stroke -> NDC)
 static float strokeTextWidth(const std::string& s) {
     float w = 0.0f;
-    for (unsigned char c : s)
+    for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
+        unsigned char c = static_cast<unsigned char>(*it);
         w += glutStrokeWidth(GLUT_STROKE_ROMAN, c);
+    }
     return w;
 }
 static float strokeToNDC(float strokeWidth) {
@@ -52,7 +54,7 @@ void updateScroller(float dt) {
     if (gVisibleChars < (int)gMessage.size()) {
         gTimer += dt;
         if (gTimer >= gCharDelay) {
-            ++gVisibleChars;
+            gVisibleChars++;
             if (gVisibleChars > (int)gMessage.size())
                 gVisibleChars = (int)gMessage.size();
             gTimer = 0.0f;
@@ -60,8 +62,7 @@ void updateScroller(float dt) {
             const std::string visible = gMessage.substr(0, gVisibleChars);
             gTextWidthNDC = strokeToNDC(strokeTextWidth(visible));
         }
-        // wenn gleichzeitig scrollen gewuenscht ist, diese Zeile entfernen
-        // return;
+        // return; // auskommentiert = gleichzeitig scrollen
     }
 
     // 2) Scroller (Loop)
@@ -79,8 +80,10 @@ void drawScroller() {
     glColor3f(0.0f, 1.0f, 0.0f);
 
     const std::string visible = gMessage.substr(0, gVisibleChars);
-    for (unsigned char c : visible)
+    for (std::string::size_type i = 0; i < visible.size(); ++i) {
+        unsigned char c = static_cast<unsigned char>(visible[i]);
         glutStrokeCharacter(GLUT_STROKE_ROMAN, c);
+    }
 
     glPopMatrix();
 }
