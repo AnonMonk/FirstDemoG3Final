@@ -13,7 +13,8 @@ enum Phase {
     PHASE_CREDIT,
     PHASE_PARTICLES,
     PHASE_PICTURE,
-    PHASE_BALL
+    PHASE_BALL,
+    PHASE_SCROLLER
 };
 
 extern Phase phase;

@@ -36,6 +36,9 @@
     <ClInclude Include="03_picture.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="05_scroller.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="helpers.cpp">
@@ -57,6 +60,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="04_ball.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="05_scroller.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
