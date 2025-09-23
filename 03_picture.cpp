@@ -108,7 +108,7 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
 
     // Top-Down erkennen nur auf Apple (ansonsten Verhalten unverändert)
 #if defined(__APPLE__)
-    if (h < 0)
+	if (h > 0) //aenderung fuer g3 von < zu > geaendert da sonnst fehlermeldung obwohl alles ok
         fprintf(stderr, "BMP ist top-down gespeichert (height negativ)\n");
 #endif
 
