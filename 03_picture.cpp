@@ -109,10 +109,11 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
     // Top-Down erkennen nur auf Apple (ansonsten Verhalten unverändert)
 #if defined(__APPLE__)
     const bool topDown = (h < 0);
-    if (h < 0) h = -h;  // Höhe positiv für Allokation/Read
 #else
     const bool topDown = false;
 #endif
+
+    if (h < 0) h = -h;
 
     *width  = w;        // Breite wie gelesen (kann negativ gewesen sein, egal)
     *height = h;        // ab hier sicher positiv
@@ -120,6 +121,7 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
     // Each row is padded to 4-byte boundary
     size_t rowSize  = ((*width * 3 + 3) / 4) * 4; // Breite bestimmt Bytes/Zeile
     size_t dataSize = rowSize * (size_t)h;        // Höhe immer positiv verwenden
+
 
     unsigned char* data = (unsigned char*)malloc(dataSize);
     if (!data) { perror("malloc"); fclose(f); return NULL; }
@@ -204,11 +206,14 @@ void drawPicture() {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
+
+    //TO DO FLIP
+    // Line 214: pr¸ffren auf mac ob das geflipt werden muss und zwar: t0 und t1 einfach probieren da die werte umgekehrt zu windows
     // Fullscreen-Quad in NDC (V-Koordinate auf Apple invertieren)
 #if defined(__APPLE__)
     const float t0 = 1.0f, t1 = 0.0f;  // Flip
 #else
-    const float t0 = 0.0f, t1 = 1.0f;  // Normal
+    const float t0 = 1.0f, t1 = 0.0f;  // Normal
 #endif
 
     glBegin(GL_QUADS);

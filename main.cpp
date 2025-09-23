@@ -48,6 +48,9 @@ void timer(int) {
 
 
 
+
+
+
     if (phase == PHASE_INTRO_RISE) updateIntroRise();
     if (phase == PHASE_CREDIT) updateIntroCredit(); 
     if (phase == PHASE_PICTURE) updatePicture();

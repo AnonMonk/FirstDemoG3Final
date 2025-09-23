@@ -15,48 +15,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\01_text.h">
+    <ClInclude Include="04_ball.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\02_particles.h">
+    <ClInclude Include="helpers.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\03_picture.h">
+    <ClInclude Include="main.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\04_ball.h">
+    <ClInclude Include="system.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\helpers.h">
+    <ClInclude Include="01_text.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\main.h">
+    <ClInclude Include="02_particles.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\git\FirstDemoG3-master-2\system.h">
+    <ClInclude Include="03_picture.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\01_text.cpp">
+    <ClCompile Include="helpers.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\02_particles.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\03_picture.cpp">
+    <ClCompile Include="system.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\04_ball.cpp">
+    <ClCompile Include="01_text.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\helpers.cpp">
+    <ClCompile Include="02_particles.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\main.cpp">
+    <ClCompile Include="03_picture.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\git\FirstDemoG3-master-2\system.cpp">
+    <ClCompile Include="04_ball.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
