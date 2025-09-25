@@ -41,13 +41,13 @@ void timer(int) {
     updateTimeSystem();
 
 
-    if (deltaTime < 4) phase = PHASE_INTRO_RISE;
-    if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
-    if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
-    if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
-    if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
-	if ((deltaTime >= 52) && (deltaTime < 62)) phase = PHASE_SCROLLER;
-    if (deltaTime >= 62) demo_quit();
+    //if (deltaTime < 4) phase = PHASE_INTRO_RISE;
+    //if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
+    //if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
+    //if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
+    //if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
+	if ((deltaTime >= 0) && (deltaTime < 120)) phase = PHASE_SCROLLER;
+    if (deltaTime >= 120) demo_quit();
 
 
 
@@ -68,10 +68,13 @@ void timer(int) {
 int main(int argc, char** argv) {
 
     resetBall();
-    resetScroller();
 
 
     init_system();
+    resetScroller();
+
+    //setScrollerText(R"(In the beginning, God created the world. Stop! In the beginning, God created the Demoscene and he saw that it was good. But then he found it a little lonely and he created the Demoscener. But what's the point of that? I'm Anon Monk and until recently I didn't even have the faintest idea that the Demoscene existed. But why am I here now anyway? It's because I met a nice gentleman who one day said come with me to Bremen for the Nordlicht and then I was at the Nordlicht. I didn't know what to expect but after about an hour I felt very comfortable and met great people. But why the demo? At the Nordlicht I met Titus Rabenauge and he said, "I've got a G3 I can send them to you and then you can do a demo." And that's why I did a demo. I learned a lot. From statements like "Where is my main?" to "You can't program when you're drunk" to "I need to calm down and read everything the AI writes," it was all there. Many thanks to Titus, without him I wouldn't have a G3 for the demo. Many thanks to Key Real, who made me a Demoscener and helped me a lot with the demo. Many thanks to Chat GPT, without whom I certainly would have thrown the G3 out the window several times. And thanks to Corvus, without whom I wouldn't have made this demo at all. Thanks for watching.)");
+
 
     loadImage();         // muss mach init sein, denn es benutzt OpenGL
     

@@ -108,7 +108,7 @@ unsigned char* loadBMP(const char* filename, int* width, int* height)
 
     // Top-Down erkennen nur auf Apple (ansonsten Verhalten unverŠndert)
 #if defined(__APPLE__)
-	if (h > 0) //aenderung fuer g3 von < zu > geaendert da sonnst fehlermeldung obwohl alles ok
+	if (h > 0) //aenderung fuer g3 von < zu > geaendert da sonnst fehlermeldung obwohl alles ok nicht nötig
         fprintf(stderr, "BMP ist top-down gespeichert (height negativ)\n");
 #endif
 
@@ -149,7 +149,7 @@ void loadImage() {
     pictureData = loadBMP("./Stuff/images/image1.bmp", &pictureWidth, &pictureHeight);
     if (!pictureData) {
         fprintf(stderr, "loadImage: failed to load BMP\n");
-        return; // keine Textur anlegen, verhindert wei§e FlŠche
+        return; // keine Textur anlegen, verhindert weisse Flaeche
     }
 
     if (textureID == 0) {
@@ -166,7 +166,7 @@ void loadImage() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP);
 
-    // Texturfarbe unverŠndert Ÿbernehmen (keine Modulation mit glColor/Licht)
+    // Texturfarbe unveraendert Uebernehmen (keine Modulation mit glColor/Licht)
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 #ifdef GL_BGR
@@ -198,11 +198,11 @@ void drawPicture() {
     glBindTexture(GL_TEXTURE_2D, textureID);
 
 
-    //TO DO FLIP
-    // Line 214: prüffren auf mac ob das geflipt werden muss und zwar: t0 und t1 einfach probieren da die werte umgekehrt zu windows
+    //FLIP
+    // kein flipp nötig
     // Fullscreen-Quad in NDC (V-Koordinate auf Apple invertieren)
 #if defined(__APPLE__)
-    const float t0 = 1.0f, t1 = 0.0f;  // Flip
+    const float t0 = 1.0f, t1 = 0.0f;  // Normal
 #else
     const float t0 = 1.0f, t1 = 0.0f;  // Normal
 #endif
@@ -215,9 +215,8 @@ void drawPicture() {
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, 0);
-    // (falls du anderswo Licht brauchst, dort wieder einschalten)
 }
 
 void updatePicture() {
-    // (leer Ð wie bei dir)
+
 }
