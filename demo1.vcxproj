@@ -128,6 +128,7 @@
     <ClInclude Include="03_picture.h" />
     <ClInclude Include="04_ball.h" />
     <ClInclude Include="05_scroller.h" />
+    <ClInclude Include="06_qr.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="system.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="03_picture.cpp" />
     <ClCompile Include="04_ball.cpp" />
     <ClCompile Include="05_scroller.cpp" />
+    <ClCompile Include="06_qr.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="system.cpp" />

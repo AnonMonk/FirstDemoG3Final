@@ -14,7 +14,8 @@ enum Phase {
     PHASE_PARTICLES,
     PHASE_PICTURE,
     PHASE_BALL,
-    PHASE_SCROLLER
+    PHASE_SCROLLER,
+    PHASE_QR
 };
 
 extern Phase phase;

@@ -39,6 +39,9 @@
     <ClInclude Include="05_scroller.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="06_qr.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="helpers.cpp">
@@ -63,6 +66,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="05_scroller.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="06_qr.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

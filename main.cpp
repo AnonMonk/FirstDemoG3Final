@@ -9,6 +9,7 @@
 #include "03_picture.h"
 #include "04_ball.h"
 #include "05_scroller.h"
+#include "06_qr.h"
 
 
 Phase phase;
@@ -27,6 +28,8 @@ void display() {
     else if (phase == PHASE_BALL)        drawBall();
     else if (phase == PHASE_PARTICLES)   drawParticles();
     else if (phase == PHASE_SCROLLER)    drawScroller();
+    else if (phase == PHASE_QR)		 drawQR();
+
 
     showFPS();
 
@@ -41,24 +44,26 @@ void timer(int) {
     updateTimeSystem();
 
 
-    //if (deltaTime < 4) phase = PHASE_INTRO_RISE;
-    //if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
-    //if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
-    //if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
-    //if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
-	if ((deltaTime >= 0) && (deltaTime < 120)) phase = PHASE_SCROLLER;
-    if (deltaTime >= 120) demo_quit();
+    if (deltaTime < 4) phase = PHASE_INTRO_RISE;
+    if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
+    if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
+    if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
+    if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
+    if ((deltaTime >= 52) && (deltaTime < 175)) phase = PHASE_SCROLLER;
+    if ((deltaTime >= 175) && (deltaTime < 180)) phase = PHASE_QR;
+    if (deltaTime >= 180) demo_quit();
 
 
 
 
 
-    if (phase == PHASE_INTRO_RISE)   updateIntroRise();
+    if (phase == PHASE_INTRO_RISE)        updateIntroRise();
     else if (phase == PHASE_CREDIT)       updateIntroCredit();
     else if (phase == PHASE_PICTURE)      updatePicture();
     else if (phase == PHASE_BALL)         updateBall();
     else if (phase == PHASE_PARTICLES)    updateParticles();
-    else if (phase == PHASE_SCROLLER)     updateScroller(0.016f);  // ~16 ms pro Frame
+    else if (phase == PHASE_SCROLLER)     updateScroller(0.016f);  
+	else if (phase == PHASE_QR)			  updateQR();
 
 
     glutPostRedisplay();
@@ -77,6 +82,8 @@ int main(int argc, char** argv) {
 
 
     loadImage();         // muss mach init sein, denn es benutzt OpenGL
+
+	loadImageQR();
     
     music_start("./Stuff/music/music.wav");
     startTime = glutGet(GLUT_ELAPSED_TIME) * 0.001;

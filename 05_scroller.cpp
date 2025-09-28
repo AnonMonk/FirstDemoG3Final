@@ -1,150 +1,106 @@
-#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 #include "system.h"
 #include "05_scroller.h"
 
-// ---------------- Konfiguration ----------------
-static std::string gMessage = R"(In the beginning, God created the world. Stop! In the beginning, God created the Demoscene and he saw that it was good. But then he found it a little lonely and he created the Demoscener. But what's the point of that? I'm Anon Monk and until recently I didn't even have the faintest idea that the Demoscene existed. But why am I here now anyway? It's because I met a nice gentleman who one day said come with me to Bremen for the Nordlicht and then I was at the Nordlicht. I didn't know what to expect but after about an hour I felt very comfortable and met great people. But why the demo? At the Nordlicht I met Titus Rabenauge and he said, "I've got a G3 I can send them to you and then you can do a demo." And that's why I did a demo. I learned a lot. From statements like "Where is my main?" to "You can't program when you're drunk" to "I need to calm down and read everything the AI writes," it was all there. Many thanks to Titus, without him I wouldn't have a G3 for the demo. Many thanks to Key Real, who made me a Demoscener and helped me a lot with the demo. Many thanks to Chat GPT, without whom I certainly would have thrown the G3 out the window several times. And thanks to Corvus, without whom I wouldn't have made this demo at all. Thanks for watching.)";
+// -------------------------------------------------
+// Konfiguration
+// -------------------------------------------------
+static const char* gMessage = "In the beginning, God created the world. Stop! In the beginning, God created the Demoscene and he saw that it was good. But then he found it a little lonely and he created the Demoscener. But what's the point of that? I'm Anon Monk and until recently I didn't even have the faintest idea that the Demoscene existed. But why am I here now anyway? It's because I met a nice gentleman who one day said come with me to Bremen for the Nordlicht and then I was at the Nordlicht. I didn't know what to expect but after about an hour I felt very comfortable and met great people. But why the demo? At the Nordlicht I met Titus Rabenauge and he said, I've got a G3 I can send them to you and then you can do a demo. And that's why I did a demo. I learned a lot. From statements like Where is my main? to You can't program when you're drunk to I need to calm down and read everything the AI writes, it was all there. Many thanks to Titus, without him I wouldn't have a G3 for the demo. Many thanks to Key Real, who made me a Demoscener and helped me a lot with the demo. Many thanks to Chat GPT, without whom I certainly would have thrown the G3 out the window several times. And thanks to Corvus, without whom I wouldn't have made this demo at all. Thanks for watching.     ";
 
-static float gSpeedPxPerSec = 80.0f;                // Pixel/Sekunde (rechts -> links)
-static float gBaselineYPx = 60.0f;                // Baseline in Pixel (von unten)
-static void* gFont = GLUT_BITMAP_9_BY_15;  // GLUT font
+static float gScrollX = 0.0f;
+static float gSpeedPxPerSec = 112.0f;      // 12% schneller für ca. 15 Sekunden Ersparnis
+static float gBaselineY = 240.0f;          // Mittig bei 480px Höhe
 
-// ---------------- State ----------------
-// gRightPx = position der rechten Textkante (logische Position)
-static float gRightPx = 0.0f;
-// Gesamtbreite des Textes (Pixel). -1 == noch nicht ermittelt (lazy).
-static int   gTextWidth = -1;
-
-// ---------------- Helpers ----------------
-static inline void pushOrtho()
+// -------------------------------------------------
+// Ortho 2D Setup
+// -------------------------------------------------
+static void pushOrtho()
 {
-    glMatrixMode(GL_PROJECTION); glPushMatrix(); glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
     glOrtho(0, ScreenWidth, 0, ScreenHeight, -1, 1);
-    glMatrixMode(GL_MODELVIEW);  glPushMatrix(); glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
 }
-static inline void popOrtho()
+
+static void popOrtho()
 {
-    glMatrixMode(GL_MODELVIEW);  glPopMatrix();
+    glMatrixMode(GL_MODELVIEW); glPopMatrix();
     glMatrixMode(GL_PROJECTION); glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
 }
 
-static int calcTextWidthPx(const std::string& s)
+// -------------------------------------------------
+// Scroller Funktionen
+// -------------------------------------------------
+void initScroller()
 {
-    int w = 0;
-    const unsigned char* p = (const unsigned char*)s.c_str();
-    while (*p) { w += glutBitmapWidth(gFont, *p++); }
-    return w;
+    gScrollX = static_cast<float>(ScreenWidth);
+    printf("Scroller initialisiert - großer Text, mittig, von rechts nach links\n");
 }
 
-// ---------------- API ----------------
 void resetScroller()
 {
-    // Setze rechte Kante so, dass die gesamte Zeile initial VOLLSTÄNDIG rechts außerhalb liegt:
-    // left0 = gRightPx - gTextWidth  -> for fully off-screen: left0 > ScreenWidth
-    // => gRightPx = ScreenWidth + gTextWidth + margin. We don't know gTextWidth yet, so:
-    // lazy: set gRightPx large; after first calc of gTextWidth, if it's too small adjust to ScreenWidth + gTextWidth.
-    gRightPx = (float)ScreenWidth * 2.0f; // sicher weit rechts außerhalb
-    gTextWidth = -1;
+    gScrollX = static_cast<float>(ScreenWidth);
+}
+
+void updateScroller(float deltaTime)
+{
+    gScrollX -= gSpeedPxPerSec * deltaTime;
+
+    // Reset mit größerer Distanz für größeren Font
+    const float RESET_DISTANCE = 15000.0f;
+
+    if (gScrollX < -RESET_DISTANCE)
+    {
+        gScrollX = static_cast<float>(ScreenWidth);
+    }
 }
 
 void drawScroller()
 {
-    // lazy berechnen (glutInit muss vorher gelaufen sein)
-    if (gTextWidth < 0) {
-        gTextWidth = calcTextWidthPx(gMessage);
-        // Falls gRightPx wurde initial groß gewählt, jetzt auf exakt ScreenWidth + gTextWidth setzen,
-        // damit die ganze Zeile **vollständig** rechts außerhalb startet.
-        if (gRightPx > (float)ScreenWidth) {
-            gRightPx = (float)ScreenWidth + (float)gTextWidth;
-        }
-        if (gTextWidth <= 0) return;
-    }
-
-    // Wenn die logische rechte Kante (gRightPx) ist die Referenz. Die sichtbare rechte Kante ist R = min(gRightPx, ScreenWidth).
-    float R = gRightPx;
-    if (R > (float)ScreenWidth) R = (float)ScreenWidth;
-    if (R < 0.0f)               R = 0.0f;
-
-    // Linke Kante der gesamten Textzeile (wenn vollständig sichtbar): left0 = gRightPx - gTextWidth
-    float left0 = gRightPx - (float)gTextWidth;
-    // Sichtfenster: wir wollen nur das Intervall [visL..visR] = [max(0,left0), R]
-    float visL = left0;
-    if (visL < 0.0f) visL = 0.0f;
-    float visR = R;
-
-    if (visL >= visR) return; // nichts sichtbar
-
-    // Finde ersten (teilweise) sichtbaren Buchstaben i: kleinste i mit pos_i + cw_i > visL
-    size_t i = 0;
-    float pos = left0; // linke Kante des 0-ten Zeichens
-    const unsigned char* s = (const unsigned char*)gMessage.c_str();
-    while (s[i]) {
-        int cw = glutBitmapWidth(gFont, s[i]);
-        if (pos + (float)cw > visL) break;
-        pos += (float)cw;
-        ++i;
-    }
-
-    // pos ist die Pixel-Position (linke Kante) des Zeichens s[i].
-    // Rasterposition: setze immer innerhalb des Bildes, auf >= visL (Ganzzahlig)
-    float rasterX = pos;
-    if (rasterX < visL) rasterX = visL;
-    // round to int to avoid subpixel raster pos jitter
-    int rasterXi = (int)(rasterX + 0.5f);
-    int baselineI = (int)(gBaselineYPx + 0.5f);
-    if (baselineI < 0) baselineI = 0;
-    if (baselineI > ScreenHeight - 1) baselineI = ScreenHeight - 1;
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 1.0f, 0.0f); // Grün
 
     pushOrtho();
-    glDisable(GL_DEPTH_TEST);
-    glColor3f(0.f, 1.f, 0.f);
 
-    // setze gültige Rasterposition (immer im Bild) - kein Invalid RasterPos
-    glRasterPos2i(rasterXi, baselineI);
+    float currentX = gScrollX;
 
-    // Wenn rasterXi > pos, wir müssen links um (rasterXi - pos) verschieben: benutz glBitmap mit xmove negativ.
-    // Statt glBitmap trick nutzen wir: wenn rasterXi > pos, wir zuerst glBitmap(0,0,0,0, delta,0,NULL) mit delta = pos - rasterXi
-    int delta = (int)(pos)-rasterXi; // normalerweise <= 0
-    if (delta != 0) {
-        // verschiebung per glBitmap (keine Pixel, nur move)
-        glBitmap(0, 0, 0, 0, (GLfloat)delta, 0.0f, NULL);
-    }
+    for (const char* c = gMessage; *c != '\0'; ++c)
+    {
+        // Nur zeichnen wenn sichtbar
+        if (currentX > -50.0f && currentX < ScreenWidth + 50.0f)
+        {
+            glRasterPos2f(currentX, gBaselineY);
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c); // Großer Font
+        }
 
-    // Zeichne Zeichen bis visR (rechts)
-    float pen = pos;
-    for (; s[i]; ++i) {
-        int cw = glutBitmapWidth(gFont, s[i]);
-        if (pen >= visR) break; // rechts schon außerhalb
-        glutBitmapCharacter(gFont, s[i]); // GLUT verschiebt den Rasterpos intern um cw
-        pen += (float)cw;
+        // Nächste Position
+        int charWidth = glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+        if (charWidth <= 0) charWidth = 18; // Fallback
+        currentX += static_cast<float>(charWidth);
+
+        // Früh abbrechen wenn zu weit rechts
+        if (currentX > ScreenWidth + 100.0f) break;
     }
 
     popOrtho();
 }
 
-void updateScroller(float dt)
+void cleanupScroller()
 {
-    // Rechts->Links: gRightPx verringern
-    gRightPx -= gSpeedPxPerSec * dt;
-
-    // Reset: sobald die komplette Zeile links draußen ist (rechte Kante <= 0),
-    // setze so, dass die ganze Zeile wieder vollständig rechts außerhalb ist:
-    if (gTextWidth > 0) {
-        if (gRightPx <= 0.0f) {
-            gRightPx = (float)ScreenWidth + (float)gTextWidth; // vollständig rechts außerhalb
-        }
-    }
+    // Nichts zu bereinigen
 }
-
-// Optional-Setter
-void setScrollerText(const char* text)
-{
-    if (!text) return;
-    gMessage = text;
-    gTextWidth = -1;
-    // sicher neu rechts starten:
-    gRightPx = (float)ScreenWidth + 1000.0f;
-}
-void setScrollerSpeed(float px_per_sec) { gSpeedPxPerSec = (px_per_sec < 0.f) ? -px_per_sec : px_per_sec; }
-void setScrollerBaseline(float y_pixels) { gBaselineYPx = y_pixels; }
