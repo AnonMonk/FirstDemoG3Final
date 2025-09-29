@@ -30,8 +30,9 @@ void display() {
     else if (phase == PHASE_SCROLLER)    drawScroller();
     else if (phase == PHASE_QR)		 drawQR();
 
-
+    //FPS
     showFPS();
+	drawQR();
 
     glutSwapBuffers();
 }

@@ -59,7 +59,7 @@ void updateScroller(float deltaTime)
 {
     gScrollX -= gSpeedPxPerSec * deltaTime;
 
-    // Reset mit größerer Distanz für größeren Font
+    // Reset nach 15000px
     const float RESET_DISTANCE = 15000.0f;
 
     if (gScrollX < -RESET_DISTANCE)

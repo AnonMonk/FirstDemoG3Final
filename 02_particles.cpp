@@ -5,6 +5,7 @@
 #include "helpers.h"
 #include "02_particles.h"
 
+//Main Message
 const char* mainMessage = "Happy Birthday Corvus";
 
 const int MAX_PARTICLES = 250; 
