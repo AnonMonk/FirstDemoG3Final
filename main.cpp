@@ -47,9 +47,9 @@ void timer(int) {
     if (deltaTime < 4) phase = PHASE_INTRO_RISE;
     if ((deltaTime >= 4) && (deltaTime < 8)) phase = PHASE_CREDIT;
     if ((deltaTime >= 8) && (deltaTime < 12)) phase = PHASE_PICTURE;
-    if ((deltaTime >= 12) && (deltaTime < 32)) phase = PHASE_BALL;
-    if ((deltaTime >= 32) && (deltaTime < 52)) phase = PHASE_PARTICLES;
-    if ((deltaTime >= 52) && (deltaTime < 175)) phase = PHASE_SCROLLER;
+    if ((deltaTime >= 12) && (deltaTime < 30)) phase = PHASE_BALL;
+    if ((deltaTime >= 30) && (deltaTime < 50)) phase = PHASE_PARTICLES;
+    if ((deltaTime >= 50) && (deltaTime < 175)) phase = PHASE_SCROLLER;
     if ((deltaTime >= 175) && (deltaTime < 180)) phase = PHASE_QR;
     if (deltaTime >= 180) demo_quit();
 
