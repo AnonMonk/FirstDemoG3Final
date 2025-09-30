@@ -32,7 +32,7 @@ void display() {
 
     //FPS
     showFPS();
-	drawQR();
+
 
     glutSwapBuffers();
 }

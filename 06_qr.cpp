@@ -33,7 +33,7 @@ static FILE* fopen_portable(const char* filename, const char* mode) {
 }
 
 // --------- QR Bild-Daten/State (eigene Namen, keine Kollision mit Picture) ---------
-static unsigned char* qrData = nullptr;
+static unsigned char* qrData = NULL;
 static int qrWidth = 0, qrHeight = 0;
 static GLuint qrTextureID = 0;   // eigene OpenGL-Textur-ID
 
@@ -138,6 +138,19 @@ static unsigned char* loadBMP_QR(const char* filename, int* width, int* height)
     }
     fclose(f);
 
+    // BMP vertikal spiegeln (top-down -> bottom-up)
+    unsigned char* tempRow = (unsigned char*)malloc(rowSize);
+    if (tempRow) {
+        for (int i = 0; i < h / 2; ++i) {
+            unsigned char* row1 = data + i * rowSize;
+            unsigned char* row2 = data + (h - 1 - i) * rowSize;
+            memcpy(tempRow, row1, rowSize);
+            memcpy(row1, row2, rowSize);
+            memcpy(row2, tempRow, rowSize);
+        }
+        free(tempRow);
+    }
+
     return data; // BGR order, bottom-to-top rows
 }
 
@@ -182,11 +195,11 @@ void loadImageQR() {
         rgb[i * 3 + 2] = src[i * 3 + 0]; // B
     }
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, qrWidth, qrHeight, 0,
-        GL_RGB, GL_UNSIGNED_BYTE, rgb.data());
+        GL_RGB, GL_UNSIGNED_BYTE, &rgb[0]);
 #endif
 
     free(qrData);
-    qrData = nullptr;
+    qrData = NULL;
 }
 
 void drawQR() {
