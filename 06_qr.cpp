@@ -216,7 +216,7 @@ void drawQR() {
 #if defined(__APPLE__)
     const float t0 = 1.0f, t1 = 0.0f;  // Normal
 #else
-    const float t0 = 0.0f, t1 = 1.0f;  // Normal
+	const float t0 = 1.0f, t1 = 0.0f;  // Windows
 #endif
 
     glBegin(GL_QUADS);
